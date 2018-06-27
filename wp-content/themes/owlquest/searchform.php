@@ -1,5 +1,9 @@
-<div class="search-box">
-<form method="get" id="searchform" action="<?php echo home_url() ; ?>/">
-<input type="text" value="<?php echo esc_html($s, 1); ?>" name="s" placeholder="Search here..." id="s" maxlength="33" />
+<form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+    <label>
+        <input type="search" class="search-field form-control" placeholder="<?php echo esc_attr_x( 'Search &hellip;', 'placeholder', 'wp-bootstrap-starter' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>" name="s" title="<?php _ex( 'Search for:', 'label', 'wp-bootstrap-starter' ); ?>">
+    </label>
+    <input type="submit" class="search-submit btn btn-default" value="<?php echo esc_attr_x( 'Search', 'submit button', 'wp-bootstrap-starter' ); ?>">
 </form>
-</div>
+
+
+

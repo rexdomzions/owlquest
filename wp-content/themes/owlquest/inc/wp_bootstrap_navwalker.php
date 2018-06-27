@@ -62,13 +62,13 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 
 			$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
 
-			if ( $args->has_children )
-				$class_names .= ' dropdown';
+            if($args->has_children && $depth === 0) { $class_names .= ' dropdown'; }
+            elseif($args->has_children && $depth > 0) {$class_names .= ' dropdown dropdown-submenu'; }
 
 			if ( in_array( 'current-menu-item', $classes ) )
 				$class_names .= ' active';
 
-			$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+			$class_names = $class_names ? ' class="nav-item ' . esc_attr( $class_names ) . '"' : '';
 
 			$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
 			$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
@@ -79,18 +79,47 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 			$atts['title']  = ! empty( $item->title )	? $item->title	: '';
 			$atts['target'] = ! empty( $item->target )	? $item->target	: '';
 			$atts['rel']    = ! empty( $item->xfn )		? $item->xfn	: '';
+            $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
 
 			// If item has_children add atts to a.
-			if ( $args->has_children && $depth === 0 ) {
+
+			if ( $args->has_children ) {
 				$atts['href']   		= '#';
 				$atts['data-toggle']	= 'dropdown';
-				$atts['class']			= 'dropdown-toggle';
+				$atts['class']			= 'dropdown-toggle nav-link';
 				$atts['aria-haspopup']	= 'true';
 			} else {
 				$atts['href'] = ! empty( $item->url ) ? $item->url : '';
+                $atts['class'] = 'nav-link';
 			}
+            if ($depth > 0 && !in_array('menu-item-has-children', $classes)) {
+                $atts['class'] = 'dropdown-item';
+            }elseif($depth > 0 && in_array('menu-item-has-children', $classes)){
+                $atts['data-toggle']	= 'dropdown';
+                $atts['class']			= 'dropdown-toggle dropdown-item';
+            }else {
+
+            }
+
+            /*
+            if ($depth === 0) {
+                $atts['class'] = 'nav-link';
+            }
+            if ($depth === 0 && in_array('menu-item-has-children', $classes)) {
+                $atts['class']       .= ' dropdown-toggle';
+                $atts['data-toggle']  = 'dropdown';
+            }
+            if ($depth > 0) {
+                $atts['class'] = 'dropdown-item';
+            }
+            if (in_array('current-menu-item', $item->classes)) {
+                $atts['class'] .= ' active';
+            }
+            */
 
 			$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args );
+
+
 
 			$attributes = '';
 			foreach ( $atts as $attr => $value ) {
@@ -110,12 +139,12 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 			 * property is NOT null we apply it as the class name for the glyphicon.
 			 */
 			if ( ! empty( $item->attr_title ) )
-				$item_output .= '<a'. $attributes .'><span class="glyphicon ' . esc_attr( $item->attr_title ) . '"></span>&nbsp;';
+				$item_output .= '<a'. $attributes .'>';
 			else
 				$item_output .= '<a'. $attributes .'>';
 
 			$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-			$item_output .= ( $args->has_children && 0 === $depth ) ? ' <span class="caret"></span></a>' : '</a>';
+			$item_output .= ( $args->has_children ) ? ' <span class="caret"></span></a>' : '</a>';
 			$item_output .= $args->after;
 
 			$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
@@ -166,41 +195,45 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 	 * @param array $args passed from the wp_nav_menu function.
 	 *
 	 */
-	public static function fallback( $args ) {
-		if ( current_user_can( 'manage_options' ) ) {
+    public static function fallback( $args ) {
+        //if ( current_user_can( 'manage_options' ) ) {
 
-			extract( $args );
+            extract( $args );
 
-			$fb_output = null;
+            $fb_output = null;
 
-			if ( $container ) {
-				$fb_output = '<' . $container;
+            if ( $container ) {
+                $fb_output = '<' . $container;
 
-				if ( $container_id )
-					$fb_output .= ' id="' . $container_id . '"';
+                if ( $container_id )
+                    $fb_output .= ' id="' . $container_id . '"';
 
-				if ( $container_class )
-					$fb_output .= ' class="' . $container_class . '"';
+                if ( $container_class )
+                    $fb_output .= ' class="' . $container_class . '"';
 
-				$fb_output .= '>';
-			}
+                $fb_output .= '>';
+            }
 
-			$fb_output .= '<ul';
+            $fb_output .= '<ul';
 
-			if ( $menu_id )
-				$fb_output .= ' id="' . $menu_id . '"';
+            if ( $menu_id )
+                $fb_output .= ' id="' . $menu_id . '"';
 
-			if ( $menu_class )
-				$fb_output .= ' class="' . $menu_class . '"';
+            if ( $menu_class )
+                $fb_output .= ' class="' . $menu_class . '"';
 
-			$fb_output .= '>';
-			$fb_output .= '<li><a href="' . admin_url( 'nav-menus.php' ) . '">Add a menu</a></li>';
-			$fb_output .= '</ul>';
+            $fb_output .= '>';
+            $fb_output .= '<li class="nav-item"><a href="#" class="nav-link">Home</a></li>';
+            $fb_output .= '<li class="nav-item"><a href="#" class="nav-link">About Us</a></li>';
+            $fb_output .= '<li class="nav-item"><a href="#" class="nav-link">Gallery</a></li>';
+            $fb_output .= '<li class="nav-item"><a href="#" class="nav-link">Contact Us</a></li>';
+            /*$fb_output .= '<li><a href="' . admin_url( 'nav-menus.php' ) . '">Add a menu</a></li>';*/
+            $fb_output .= '</ul>';
 
-			if ( $container )
-				$fb_output .= '</' . $container . '>';
+            if ( $container )
+                $fb_output .= '</' . $container . '>';
 
-			echo $fb_output;
-		}
-	}
+            echo $fb_output;
+        //}
+    }
 }
