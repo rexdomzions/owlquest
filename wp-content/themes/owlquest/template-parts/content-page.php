@@ -1,52 +1,30 @@
 <?php
 /**
- * Template part for displaying page content in page.php
+ * Template part for displaying posts.
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * @link https://codex.wordpress.org/Template_Hierarchy
  *
- * @package owlquest
+ * @package WiroSableng
  */
 
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-	</header><!-- .entry-header -->
-
-	<?php owlquest_post_thumbnail(); ?>
-
-	<div class="entry-content">
 		<?php
-		the_content();
+		the_title( '<h1 class="entry-title">', '</h1>' );
+		 ?>
+		<div class="post-details">
+			<i class="fa fa-user"></i> <?php the_author(); ?>
+			<i class="fa fa-clock-o"></i> <?php the_date(); ?> | <time> <?php the_time(); ?></time>
+			<i class="fa fa-folder"></i> <?php the_category(', '); ?>
+			<i class="fa fa-tags"></i> <?php the_tags(); ?>
+			<i class="fa fa-comments"></i> <a href="<?php comments_link(); ?>"><?php comments_number('0 comment','1 comment','% comments'); ?></a>
+		</div><!-- post-details -->
 
-		wp_link_pages( array(
-			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'owlquest' ),
-			'after'  => '</div>',
-		) );
-		?>
-	</div><!-- .entry-content -->
+	</header><!-- .entry-header -->
+	<div class="post-body">
+		<?php the_content();?>
+	</div><!-- post-body -->
 
-	<?php if ( get_edit_post_link() ) : ?>
-		<footer class="entry-footer">
-			<?php
-			edit_post_link(
-				sprintf(
-					wp_kses(
-						/* translators: %s: Name of current post. Only visible to screen readers */
-						__( 'Edit <span class="screen-reader-text">%s</span>', 'owlquest' ),
-						array(
-							'span' => array(
-								'class' => array(),
-							),
-						)
-					),
-					get_the_title()
-				),
-				'<span class="edit-link">',
-				'</span>'
-			);
-			?>
-		</footer><!-- .entry-footer -->
-	<?php endif; ?>
-</article><!-- #post-<?php the_ID(); ?> -->
+</article><!-- #post-## -->

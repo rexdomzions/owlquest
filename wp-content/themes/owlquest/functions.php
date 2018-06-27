@@ -1,87 +1,79 @@
 <?php
 /**
- * owlquest functions and definitions
+ * WiroSableng functions and definitions.
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package owlquest
+ * @package WiroSableng
  */
-
-if ( ! function_exists( 'owlquest_setup' ) ) :
-	/**
-	 * Sets up theme defaults and registers support for various WordPress features.
-	 *
-	 * Note that this function is hooked into the after_setup_theme hook, which
-	 * runs before the init hook. The init hook is too late for some features, such
-	 * as indicating support for post thumbnails.
+/* add theme option*/
+add_filter('ot_show_pages','__return_false');
+add_filter('ot_show_new_layout','__return_false');
+add_filter('ot_theme_mode','__return_true');
+include_once('option-tree/ot-loader.php');
+include_once('option-tree/theme-options.php');
+if ( ! function_exists( 'wirosableng_setup' ) ) :
+/**
+ * Sets up theme defaults and registers support for various WordPress features.
+ *
+ * Note that this function is hooked into the after_setup_theme hook, which
+ * runs before the init hook. The init hook is too late for some features, such
+ * as indicating support for post thumbnails.
+ */
+function wirosableng_setup() {
+	/*
+	 * Make theme available for translation.
+	 * Translations can be filed in the /languages/ directory.
+	 * If you're building a theme based on WiroSableng, use a find and replace
+	 * to change 'wirosableng' to the name of your theme in all the template files.
 	 */
-	function owlquest_setup() {
-		/*
-		 * Make theme available for translation.
-		 * Translations can be filed in the /languages/ directory.
-		 * If you're building a theme based on owlquest, use a find and replace
-		 * to change 'owlquest' to the name of your theme in all the template files.
-		 */
-		load_theme_textdomain( 'owlquest', get_template_directory() . '/languages' );
+	load_theme_textdomain( 'wirosableng', get_template_directory() . '/languages' );
 
-		// Add default posts and comments RSS feed links to head.
-		add_theme_support( 'automatic-feed-links' );
+	// Add default posts and comments RSS feed links to head.
+	add_theme_support( 'automatic-feed-links' );
 
-		/*
-		 * Let WordPress manage the document title.
-		 * By adding theme support, we declare that this theme does not use a
-		 * hard-coded <title> tag in the document head, and expect WordPress to
-		 * provide it for us.
-		 */
-		add_theme_support( 'title-tag' );
+	/*
+	 * Let WordPress manage the document title.
+	 * By adding theme support, we declare that this theme does not use a
+	 * hard-coded <title> tag in the document head, and expect WordPress to
+	 * provide it for us.
+	 */
+	add_theme_support( 'title-tag' );
 
-		/*
-		 * Enable support for Post Thumbnails on posts and pages.
-		 *
-		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-		 */
-		add_theme_support( 'post-thumbnails' );
+	/*
+	 * Enable support for Post Thumbnails on posts and pages.
+	 *
+	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+	 */
+	add_theme_support( 'post-thumbnails' );
 
-		// This theme uses wp_nav_menu() in one location.
-		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'owlquest' ),
-		) );
+	// This theme uses wp_nav_menu() in one location.
+	register_nav_menus( array(
+		'primary' => esc_html__( 'Primary', 'wirosableng' ),
+	) );
+	register_nav_menus( array(
+		'secondary' => esc_html__( 'Secondary', 'wirosableng' ),
+	) );
+	/*
+	 * Switch default core markup for search form, comment form, and comments
+	 * to output valid HTML5.
+	 */
+	add_theme_support( 'html5', array(
+		'search-form',
+		'comment-form',
+		'comment-list',
+		'gallery',
+		'caption',
+	) );
 
-		/*
-		 * Switch default core markup for search form, comment form, and comments
-		 * to output valid HTML5.
-		 */
-		add_theme_support( 'html5', array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-		) );
-
-		// Set up the WordPress core custom background feature.
-		add_theme_support( 'custom-background', apply_filters( 'owlquest_custom_background_args', array(
-			'default-color' => 'ffffff',
-			'default-image' => '',
-		) ) );
-
-		// Add theme support for selective refresh for widgets.
-		add_theme_support( 'customize-selective-refresh-widgets' );
-
-		/**
-		 * Add support for core custom logo.
-		 *
-		 * @link https://codex.wordpress.org/Theme_Logo
-		 */
-		add_theme_support( 'custom-logo', array(
-			'height'      => 250,
-			'width'       => 250,
-			'flex-width'  => true,
-			'flex-height' => true,
-		) );
-	}
+	// Set up the WordPress core custom background feature.
+	add_theme_support( 'custom-background', apply_filters( 'wirosableng_custom_background_args', array(
+		'default-color' => 'ffffff',
+		'default-image' => '',
+	) ) );
+}
 endif;
-add_action( 'after_setup_theme', 'owlquest_setup' );
+add_action( 'after_setup_theme', 'wirosableng_setup' );
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -90,47 +82,44 @@ add_action( 'after_setup_theme', 'owlquest_setup' );
  *
  * @global int $content_width
  */
-function owlquest_content_width() {
-	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-	$GLOBALS['content_width'] = apply_filters( 'owlquest_content_width', 640 );
+function wirosableng_content_width() {
+	$GLOBALS['content_width'] = apply_filters( 'wirosableng_content_width', 640 );
 }
-add_action( 'after_setup_theme', 'owlquest_content_width', 0 );
+add_action( 'after_setup_theme', 'wirosableng_content_width', 0 );
 
 /**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function owlquest_widgets_init() {
+function wirosableng_widgets_init() {
 	register_sidebar( array(
-		'name'          => esc_html__( 'Sidebar', 'owlquest' ),
+		'name'          => esc_html__( 'Sidebar', 'wirosableng' ),
 		'id'            => 'sidebar-1',
-		'description'   => esc_html__( 'Add widgets here.', 'owlquest' ),
+		'description'   => esc_html__( 'Add widgets here.', 'wirosableng' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
 	) );
 }
-add_action( 'widgets_init', 'owlquest_widgets_init' );
+add_action( 'widgets_init', 'wirosableng_widgets_init' );
 
 /**
  * Enqueue scripts and styles.
  */
-function owlquest_scripts() {
-	wp_enqueue_style( 'owlquest-style', get_stylesheet_uri() );
+function wirosableng_scripts() {
+	wp_enqueue_style( 'wirosableng-style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'owlquest-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+	wp_enqueue_script( 'wirosableng-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
-	wp_enqueue_script( 'owlquest-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+	wp_enqueue_script( 'wirosableng-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'owlquest_scripts' );
+add_action( 'wp_enqueue_scripts', 'wirosableng_scripts' );
 
 /**
  * Implement the Custom Header feature.
@@ -143,9 +132,9 @@ require get_template_directory() . '/inc/custom-header.php';
 require get_template_directory() . '/inc/template-tags.php';
 
 /**
- * Functions which enhance the theme by hooking into WordPress.
+ * Custom functions that act independently of the theme templates.
  */
-require get_template_directory() . '/inc/template-functions.php';
+require get_template_directory() . '/inc/extras.php';
 
 /**
  * Customizer additions.
@@ -153,9 +142,27 @@ require get_template_directory() . '/inc/template-functions.php';
 require get_template_directory() . '/inc/customizer.php';
 
 /**
+ * navigation bootstrap
+ */
+require get_template_directory() . '/inc/wp_bootstrap_navwalker.php';
+
+
+/**
  * Load Jetpack compatibility file.
  */
-if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
+require get_template_directory() . '/inc/jetpack.php';
+
+function my_nav_wrap() {
+  $wrap  = '<ul id="%1$s" class="%2$s">';
+  $wrap .= '<li class="hidden-xs"><a href="/"><i class="fa fa-home"></i></a></li>';
+  $wrap .= '%3$s';
+  $wrap .= '</ul>';
+  return $wrap;
 }
 
+function new_excerpt($more)
+{
+	global $post;
+	return '...<a class="btn btn-danger btn-readmore" href="'.get_permalink($post->ID).'">Read More</a>';
+}
+add_filter('excerpt_more','new_excerpt');
