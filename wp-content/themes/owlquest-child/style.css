@@ -70,7 +70,7 @@ body:not(.theme-preset-active) #page-sub-header h1 {
 .owlnewsletter {
 	
 	padding: 60px;
-	background: #006bc5;
+	background: #0098da;
 }
 
 .owlnewsletter h1, 
@@ -102,6 +102,133 @@ h3.widget-title {
 .widget p {
 	margin: 30px 0;
 }
+
+.ftr {
+	padding: 0;
+	margin-top: 30px;
+	list-style: none;
+}
+
+.ftr li a {
+	color: #a9a9a9;
+}
+
+.cls {
+	clear: both;
+}
+
+.txtemail {
+	width: 100%;
+	font-size: 18px;
+	font-style: italic;
+	border-radius: 16px;
+	padding: 8px 18px;
+	background: #fff;
+	border: none;
+}
+
+.btnsubmit {	
+	color: #fff;
+	font-size: 18px;	
+	border-radius: 20px;
+	padding: 6px 30px;
+	background: transparent;
+	border: 2px solid #fff;
+}
+
+.txtemail,
+.btnsubmit {
+	float: left;
+	margin: 1em 0;
+}
+
+
+/*how it works*/
+
+.howitworks {
+
+}
+
+.howitworks h1 {
+    text-align: center;
+    background: #0072c8;
+    color: #fff;
+    font-size: 35px;
+    padding: 60px 20px;
+    margin: 0;
+}
+
+.grey {
+	background: #ebebeb;
+	padding: 60px 0;
+}
+
+.light {
+	background: #fff;
+	padding: 60px 0;
+}
+
+.grey img,
+.light img {
+	width: 85px;
+	float: left;
+}
+
+.onef {
+	float: left;
+	width: 18%;
+}
+
+.threef {
+	float: left;
+	width: 82%;
+}
+
+.threef h4 {
+	margin: 0;
+	color: #0062C1;
+}
+
+
+.css3-arrow,
+.arrow{
+    background: #ccc;
+    position: relative;
+    width: 300px;
+}
+.triangle{
+    position:absolute;
+}
+.css3-arrow.down:before,
+.triangle.downg{
+    width: 0;
+	height: 0;
+	border-left: 30px solid transparent;
+	border-right: 30px solid transparent;
+	border-top: 25px solid #EBEBEB;
+	top: 166%;
+	margin-left: 47%;
+}
+
+.css3-arrow.down:before,
+.triangle.downl{
+    width: 0;
+	height: 0;
+	border-left: 30px solid transparent;
+	border-right: 30px solid transparent;
+	border-top: 25px solid #fff;
+	top: 166%;
+	margin-left: 47%;
+}
+
+.css3-arrow{
+    margin-top: 100px;
+}
+.css3-arrow:before{
+    content: '';
+    position: absolute;
+}
+
 
 /*--------------------------------------------------------------
 ## Notebook
